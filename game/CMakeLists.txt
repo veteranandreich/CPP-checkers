@@ -1,10 +1,11 @@
 project(game)
 
 set(SOURCES
-		game.cpp)
+		checker_game.cpp)
 set(HEADERS
 		game.h
-		structures.h)
+		structures.h
+		checker_game.h)
 
 include_directories(../)
 
