@@ -67,7 +67,6 @@ std::vector<step_t> computer_strategy_t::find_moves(const field_t &field, const 
                     if (field.is_reachable(x + 1, y + 1, x + 2, y) && field.fld[y - 1][x + 1] == '.') {
                         moves.emplace_back(x + 1, y + 1, x + 2, y, true);
                     }
-                } else {
                     if (field.is_reachable(x + 1, y + 1, x, y + 2) && field.fld[y + 1][x - 1] == '.') {
                         moves.emplace_back(x + 1, y + 1, x, y + 2, true);
                     }
@@ -90,15 +89,21 @@ std::vector<step_t>
 computer_strategy_t::opponents_near(int x, int y, bool queen, size_t player_num, const field_t &field) {
     std::vector<step_t> opponents;
 
+    char mark;
+    char queen_mark;
     char opponent_mark;
     char opponent_queen_mark;
 
     if (player_num == 0) {
+        mark = field.player1_mark;
+        queen_mark = field.player1_queen_mark;
         opponent_mark = field.player2_mark;
         opponent_queen_mark = field.player2_queen_mark;
     } else {
+        mark = field.player2_mark;
+        queen_mark = field.player2_queen_mark;
         opponent_mark = field.player1_mark;
-        opponent_queen_mark = field.player2_queen_mark;
+        opponent_queen_mark = field.player1_queen_mark;
     }
 
     if (!queen) {
@@ -127,24 +132,46 @@ computer_strategy_t::opponents_near(int x, int y, bool queen, size_t player_num,
         bool dl = false;
         bool dr = false;
         for (int i = 1; i < 8; i++) {
+
             if (!ul && y - i - 1 >= 0 && x - i - 1 >= 0 && field.fld[y - i - 1][x - i - 1] == '.' &&
                 (field.fld[y - i][x - i] == opponent_mark || field.fld[y - i][x - i] == opponent_queen_mark)) {
-                opponents.emplace_back(x + 1, y + 1,  x - i, y - i);
+                opponents.emplace_back(x + 1, y + 1,  x - i, y - i, true);
                 ul = true;
             }
+            if (!ul && y - i - 1 >= 0 && x - i - 1 >= 0 && field.fld[y - i - 1][x - i - 1] == '.' &&
+                (field.fld[y - i][x - i] == mark || field.fld[y - i][x - i] == queen_mark)) {
+                ul = true;
+            }
+
+
             if (!ur && y - i - 1 >= 0 && x + i + 1 <= 7 && field.fld[y - i - 1][x + i + 1] == '.' &&
                 (field.fld[y - i][x + i] == opponent_mark || field.fld[y - i][x + i] == opponent_queen_mark)) {
-                opponents.emplace_back(x + 1, y + 1, x + i + 2, y - i);
+                opponents.emplace_back(x + 1, y + 1, x + i + 2, y - i, true);
                 ur = true;
             }
+            if (!ur && y - i - 1 >= 0 && x + i + 1 <= 7 && field.fld[y - i - 1][x + i + 1] == '.' &&
+                (field.fld[y - i][x + i] == mark || field.fld[y - i][x + i] == queen_mark)) {
+                ur = true;
+            }
+
             if (!dl && y + i + 1 <= 7 && x - i - 1 >= 0 && field.fld[y + i + 1][x - i - 1] == '.' &&
                 (field.fld[y + i][x - i] == opponent_mark || field.fld[y + i][x - i] == opponent_queen_mark)) {
-                opponents.emplace_back(x + 1, y + 1,  x - i, y + i + 2);
+                opponents.emplace_back(x + 1, y + 1,  x - i, y + i + 2, true);
                 dl = true;
             }
+            if (!dl && y + i + 1 <= 7 && x - i - 1 >= 0 && field.fld[y + i + 1][x - i - 1] == '.' &&
+                (field.fld[y + i][x - i] == mark || field.fld[y + i][x - i] == queen_mark)) {
+                dl = true;
+            }
+
+
             if (!dr && y + i + 1 <= 7 && x + i + 1 <= 7 && field.fld[y + i + 1][x + i + 1] == '.' &&
                 (field.fld[y + i][x + i] == opponent_mark || field.fld[y + i][x + i] == opponent_queen_mark)) {
-                opponents.emplace_back(x + 1, y + 1,  x + i + 2, y + i + 2);
+                opponents.emplace_back(x + 1, y + 1,  x + i + 2, y + i + 2, true);
+                dr = true;
+            }
+            if (!dr && y + i + 1 <= 7 && x + i + 1 <= 7 && field.fld[y + i + 1][x + i + 1] == '.' &&
+                (field.fld[y + i][x + i] == mark || field.fld[y + i][x + i] == queen_mark)) {
                 dr = true;
             }
         }

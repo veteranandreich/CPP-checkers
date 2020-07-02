@@ -13,7 +13,7 @@ public:
 
     void on_draw() override;
 
-    void on_incorrect_step(const step_t &step, field_t &field) const override;
+    void on_incorrect_step(const step_t &step, field_t &field, size_t player_num) const override;
 
     virtual void print_stat() const;
 

@@ -32,7 +32,7 @@ step_t human_strategy_t::make_step(const field_t &fld, const size_t player_num) 
     return {from_x, from_y, to_x, to_y, queen};
 }
 
-void human_strategy_t::on_incorrect_step(const step_t &step, field_t &field) const {
+void human_strategy_t::on_incorrect_step(const step_t &step, field_t &field, size_t player_num) const {
     std::cout << "Incorrect step: from_x " << step.from_x << " from_y " << step.from_y << " to_x " << step.to_x << " to_y "
               << step.to_y;
 }

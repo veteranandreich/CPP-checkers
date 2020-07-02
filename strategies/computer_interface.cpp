@@ -20,9 +20,9 @@ void computer_interface_t::on_draw() {
     ++draw_counter;
 }
 
-void computer_interface_t::on_incorrect_step(const step_t &step, field_t &field) const {
+void computer_interface_t::on_incorrect_step(const step_t &step, field_t &field, size_t player_num) const {
     field.print_field();
-    std::cout << step.from_x << " " << step.from_y << " " << step.to_x << " " << step.to_y << " " << step.queen
+    std::cout << step.from_x << " " << step.from_y << " " << step.to_x << " " << step.to_y << " " << step.queen << " "<< player_num
               << std::endl;
     assert(false);
 }
